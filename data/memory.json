@@ -1,10 +1,10 @@
 {
   "version": 2,
   "createdAt": null,
-  "totalRuns": 1,
+  "totalRuns": 2,
   "totalDeaths": 4,
   "totalDragonKills": 0,
-  "lastBootAt": "2026-07-23T20:45:23.183Z",
+  "lastBootAt": "2026-07-23T21:16:21.133Z",
   "lastExitReason": null,
   "lastPosition": null,
   "homeBase": null,

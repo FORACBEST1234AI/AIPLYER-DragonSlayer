@@ -2,6 +2,7 @@
 
 const { sleep, findItem, nearestOf } = require('../utils/helpers');
 const { Vec3 } = require('vec3');
+const { safePlaceAt, isSolid } = require('../utils/place_helper');
 
 class Shelter {
   constructor(bot, memory, mcData, logger) {
@@ -35,10 +36,12 @@ class Shelter {
   }
 
   async buildOrEnterShelter() {
+    // Try existing bed
     const bed = this.bot.findBlock({ matching: b => b.name?.endsWith('_bed'), maxDistance: 14 });
     if (bed) {
       try { await this.bot.sleep(bed); return true; } catch {}
     }
+    // Place own bed
     const bedItem = (this.bot.inventory.items() || []).find(i => i.name.endsWith('_bed'));
     if (bedItem) {
       const ok = await this.placeBedAndSleep(bedItem);
@@ -49,9 +52,9 @@ class Shelter {
 
   async placeBedAndSleep(item) {
     try {
-      await this.bot.equip(item, 'hand');
-      const ref = this.bot.blockAt(this.bot.entity.position.offset(1, -1, 0));
-      if (ref) await this.bot.placeBlock(ref, new Vec3(0, 1, 0));
+      const targetPos = this.bot.entity.position.floored().offset(1, 0, 0);
+      const placed = await safePlaceAt(this.bot, item, targetPos);
+      if (!placed) return false;
       await sleep(400);
       const bed = this.bot.findBlock({ matching: b => b.name?.endsWith('_bed'), maxDistance: 3 });
       if (bed) {
@@ -66,17 +69,24 @@ class Shelter {
     const block = findItem(this.bot, ['cobblestone','dirt','stone','oak_planks','spruce_planks','birch_planks','cobbled_deepslate','netherrack']);
     if (!block) return false;
     try {
-      await this.bot.equip(block, 'hand');
       const base = this.bot.entity.position.floored();
-      const refs = [
-        base.offset(1,-1,0), base.offset(-1,-1,0), base.offset(0,-1,1), base.offset(0,-1,-1)
+      // Place 4 walls around at foot level
+      const wallPositions = [
+        base.offset(1, 0, 0),
+        base.offset(-1, 0, 0),
+        base.offset(0, 0, 1),
+        base.offset(0, 0, -1),
       ];
-      for (const p of refs) {
-        const ref = this.bot.blockAt(p);
-        if (ref) await this.bot.placeBlock(ref, new Vec3(0,1,0)).catch(() => {});
+      for (const p of wallPositions) {
+        await safePlaceAt(this.bot, block, p);
       }
-      const topRef = this.bot.blockAt(base.offset(0,2,0));
-      if (topRef) await this.bot.placeBlock(topRef, new Vec3(0,-1,0)).catch(() => {});
+      // Second wall row
+      const wallPositions2 = wallPositions.map(p => p.offset(0, 1, 0));
+      for (const p of wallPositions2) {
+        await safePlaceAt(this.bot, block, p);
+      }
+      // Ceiling
+      await safePlaceAt(this.bot, block, base.offset(0, 2, 0));
       this.memory.state.homeBase = { x: base.x, y: base.y, z: base.z };
       this.memory.learn('night_shelter', 'built emergency shelter');
       return true;

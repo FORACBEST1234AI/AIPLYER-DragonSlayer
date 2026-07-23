@@ -3,6 +3,8 @@
 const { goals } = require('mineflayer-pathfinder');
 const { sleep, findItem, hasItem } = require('../utils/helpers');
 const { Vec3 } = require('vec3');
+const { isInWater, isHeadUnderwater, waterSurvive, swimUp } = require('../utils/swim_helper');
+const { safePlaceAt } = require('../utils/place_helper');
 
 class Survival {
   constructor(bot, memory, mcData, logger) {
@@ -13,9 +15,16 @@ class Survival {
   }
 
   detectNeed() {
-    if (this.bot.oxygenLevel !== undefined && this.bot.oxygenLevel <= 5) return 'drowning';
+    if (!this.bot.entity) return null;
+
+    // Head underwater with low oxygen -> immediate drowning
+    if (isHeadUnderwater(this.bot) && (this.bot.oxygenLevel ?? 20) <= 8) return 'drowning';
+
+    // Just in water at all -> swim to land (proactive)
+    if (isInWater(this.bot)) return 'in_water';
+
     if (this.bot.entity?.onFire) return 'on_fire';
-    const below = this.bot.entity ? this.bot.blockAt(this.bot.entity.position.offset(0, -0.5, 0)) : null;
+    const below = this.bot.blockAt(this.bot.entity.position.offset(0, -0.5, 0));
     if (below?.name === 'lava') return 'in_lava';
     if (this.bot.food <= 6) return 'hungry';
     if (this.bot.health < 6) return 'critical_hp';
@@ -23,44 +32,57 @@ class Survival {
   }
 
   async act(need) {
-    if (need === 'drowning') return this.escapeWater();
-    if (need === 'on_fire') return this.escapeFire();
-    if (need === 'in_lava') return this.escapeLava();
-    if (need === 'hungry') return this.handleHunger();
-    if (need === 'critical_hp') return this.retreatAndHeal();
+    switch (need) {
+      case 'drowning':  return this.escapeDrowning();
+      case 'in_water':  return this.getOutOfWater();
+      case 'on_fire':   return this.escapeFire();
+      case 'in_lava':   return this.escapeLava();
+      case 'hungry':    return this.handleHunger();
+      case 'critical_hp': return this.retreatAndHeal();
+      default: return false;
+    }
   }
 
-  async escapeWater() {
-    this.bot.setControlState('jump', true);
-    this.bot.setControlState('forward', true);
-    await sleep(2000);
-    this.bot.clearControlStates();
+  async escapeDrowning() {
+    this.logger.warn('drowning! swimming up');
+    // First priority: get head above water
+    await swimUp(this.bot, 6000);
+    // Then swim to land
+    if (isInWater(this.bot)) await waterSurvive(this.bot, 12000);
+    return !isInWater(this.bot);
+  }
+
+  async getOutOfWater() {
+    this.logger.info('in water, swimming to land');
+    return waterSurvive(this.bot, 12000);
   }
 
   async escapeFire() {
     const waterId = this.mcData.blocksByName.water?.id;
     const water = waterId ? this.bot.findBlock({ matching: waterId, maxDistance: 20 }) : null;
     if (water) {
-      try { await this.bot.pathfinder.goto(new goals.GoalNear(water.position.x, water.position.y, water.position.z, 1)); return; } catch {}
+      try {
+        await this.bot.pathfinder.goto(new goals.GoalNear(water.position.x, water.position.y, water.position.z, 1));
+        return true;
+      } catch {}
     }
     this.bot.setControlState('sprint', true);
     this.bot.setControlState('forward', true);
     await sleep(2500);
     this.bot.clearControlStates();
+    return true;
   }
 
   async escapeLava() {
     this.bot.setControlState('jump', true);
     const block = findItem(this.bot, ['cobblestone','stone','dirt','netherrack','cobbled_deepslate']);
     if (block) {
-      try {
-        await this.bot.equip(block, 'hand');
-        const ref = this.bot.blockAt(this.bot.entity.position.offset(0, -1, 0));
-        if (ref) await this.bot.placeBlock(ref, new Vec3(0, 1, 0));
-      } catch {}
+      const pos = this.bot.entity.position.floored().offset(0, -1, 0);
+      await safePlaceAt(this.bot, block, pos);
     }
     await sleep(700);
     this.bot.setControlState('jump', false);
+    return true;
   }
 
   async handleHunger() {
@@ -98,6 +120,7 @@ class Survival {
       await sleep(500);
       tries += 1;
     }
+    return true;
   }
 }
 

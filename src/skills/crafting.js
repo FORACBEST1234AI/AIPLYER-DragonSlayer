@@ -2,6 +2,7 @@
 
 const { findItem, hasItem, itemCount } = require('../utils/helpers');
 const { Vec3 } = require('vec3');
+const { safePlaceAt } = require('../utils/place_helper');
 
 class Crafting {
   constructor(bot, memory, mcData, logger) {
@@ -27,12 +28,21 @@ class Crafting {
     if (!item) await this.ensureCraftingTable();
     const it = findItem(this.bot, ['crafting_table']);
     if (!it) return null;
-    try {
-      await this.bot.equip(it, 'hand');
-      const ref = this.bot.blockAt(this.bot.entity.position.offset(1, -1, 0));
-      if (ref) await this.bot.placeBlock(ref, new Vec3(0, 1, 0));
-      return this.bot.findBlock({ matching: this.mcData.blocksByName.crafting_table.id, maxDistance: 4 });
-    } catch { return null; }
+    // Try nearby positions using safePlaceAt
+    const base = this.bot.entity.position.floored();
+    const spots = [
+      base.offset(1, 0, 0), base.offset(-1, 0, 0),
+      base.offset(0, 0, 1), base.offset(0, 0, -1),
+      base.offset(2, 0, 0), base.offset(0, 0, 2),
+    ];
+    for (const spot of spots) {
+      const placed = await safePlaceAt(this.bot, it, spot);
+      if (placed) {
+        const tb = this.bot.findBlock({ matching: this.mcData.blocksByName.crafting_table.id, maxDistance: 4 });
+        if (tb) return tb;
+      }
+    }
+    return null;
   }
 
   async craftPlanks(minCount = 4) {
@@ -94,9 +104,7 @@ class Crafting {
     return true;
   }
 
-  async smeltAll() {
-    return false;
-  }
+  async smeltAll() { return false; }
 }
 
 module.exports = Crafting;

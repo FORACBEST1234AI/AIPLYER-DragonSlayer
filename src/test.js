@@ -8,9 +8,12 @@ function bad(name, e) { console.error(`FAIL ${name}: ${e.message || e}`); fail +
 
 (async () => {
   const modules = [
-    './utils/config','./utils/logger','./utils/helpers','./utils/dns','./memory/memory','./combat/combat','./survival/survival',
+    './utils/config','./utils/logger','./utils/helpers','./utils/dns',
+    './utils/place_helper','./utils/swim_helper',
+    './memory/memory','./combat/combat','./survival/survival',
     './skills/anti_afk','./skills/item_recovery','./skills/shelter','./skills/mining','./skills/food','./skills/crafting',
-    './skills/nether','./skills/stronghold','./skills/progression','./skills/skills_registry','./dragon/dragon_fight','./brain'
+    './skills/nether','./skills/stronghold','./skills/progression','./skills/skills_registry',
+    './dragon/dragon_fight','./brain'
   ];
   for (const m of modules) {
     try { require(m); ok(`load ${m}`); } catch (e) { bad(`load ${m}`, e); }
@@ -49,16 +52,34 @@ function bad(name, e) { console.error(`FAIL ${name}: ${e.message || e}`); fail +
   try {
     const skills = require('./skills/skills_registry');
     const list = skills.list();
-    if (list.length < 50) throw new Error(`only ${list.length} skills`);
+    if (list.length < 60) throw new Error(`only ${list.length} skills`);
     ok(`skills registry count ${list.length}`);
   } catch (e) { bad('skills registry', e); }
 
   try {
+    const ph = require('./utils/place_helper');
+    if (typeof ph.safePlaceAt !== 'function') throw new Error('safePlaceAt missing');
+    if (typeof ph.safeDig !== 'function') throw new Error('safeDig missing');
+    if (typeof ph.safePillarUp !== 'function') throw new Error('safePillarUp missing');
+    if (typeof ph.safeJump !== 'function') throw new Error('safeJump missing');
+    if (typeof ph.isForwardWalkable !== 'function') throw new Error('isForwardWalkable missing');
+    ok('place_helper exports (safe pillar/place/dig/jump)');
+  } catch (e) { bad('place_helper exports', e); }
+
+  try {
+    const sh = require('./utils/swim_helper');
+    for (const fn of ['isInWater','isHeadUnderwater','swimUp','swimToLand','waterSurvive']) {
+      if (typeof sh[fn] !== 'function') throw new Error(`${fn} missing`);
+    }
+    ok('swim_helper exports (swimUp/swimToLand/waterSurvive)');
+  } catch (e) { bad('swim_helper exports', e); }
+
+  try {
     const mcData = require('minecraft-data')('1.21.1');
-    for (const n of ['crafting_table','furnace','obsidian','end_portal_frame','bedrock']) {
+    for (const n of ['crafting_table','furnace','obsidian','end_portal_frame','bedrock','water','lava']) {
       if (!mcData.blocksByName[n]) throw new Error(`missing block ${n}`);
     }
-    for (const n of ['iron_pickaxe','diamond_pickaxe','bucket','shield','ender_eye']) {
+    for (const n of ['iron_pickaxe','diamond_pickaxe','bucket','shield','ender_eye','flint_and_steel']) {
       if (!mcData.itemsByName[n]) throw new Error(`missing item ${n}`);
     }
     ok('mcData sanity');

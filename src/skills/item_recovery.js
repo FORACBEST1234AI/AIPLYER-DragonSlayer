@@ -14,10 +14,17 @@ class ItemRecovery {
   async recover(drop) {
     if (!drop || !drop.pos) return false;
     if (drop.expiresAt <= Date.now()) return false;
-    const valuable = (drop.items || []).some(i => !['dirt','cobblestone','rotten_flesh','string','gravel'].includes(i.name));
+    // Skip if items are trash
+    const valuable = (drop.items || []).some(i =>
+      !['dirt','cobblestone','rotten_flesh','string','gravel','sand'].includes(i.name)
+    );
     if (!valuable) return true;
     try {
-      await this.bot.pathfinder.goto(new goals.GoalNear(drop.pos.x, drop.pos.y, drop.pos.z, 2));
+      // Timeout the recovery attempt so we don't wait forever
+      await Promise.race([
+        this.bot.pathfinder.goto(new goals.GoalNear(drop.pos.x, drop.pos.y, drop.pos.z, 2)),
+        new Promise((_, rej) => setTimeout(() => rej(new Error('recovery timeout')), 60000)),
+      ]);
       await sleep(1500);
       return true;
     } catch (e) {
