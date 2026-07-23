@@ -2,9 +2,9 @@
   "version": 2,
   "createdAt": null,
   "totalRuns": 2,
-  "totalDeaths": 4,
+  "totalDeaths": 7,
   "totalDragonKills": 0,
-  "lastBootAt": "2026-07-23T21:16:21.133Z",
+  "lastBootAt": "2026-07-23T21:23:45.368Z",
   "lastExitReason": null,
   "lastPosition": null,
   "homeBase": null,
@@ -12,6 +12,36 @@
   "strongholdPortal": null,
   "currentPhase": "iron",
   "deaths": [
+    {
+      "position": {
+        "x": 30085.3,
+        "y": 88,
+        "z": 29988.7
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-23T21:29:33.547Z"
+    },
+    {
+      "position": {
+        "x": -250.5,
+        "y": 79,
+        "z": 291.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-23T21:29:26.496Z"
+    },
+    {
+      "position": {
+        "x": -247.5,
+        "y": 78,
+        "z": 295.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-23T21:29:06.053Z"
+    },
     {
       "position": {
         "x": 313.5,
