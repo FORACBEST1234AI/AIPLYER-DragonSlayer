@@ -1,6 +1,7 @@
 'use strict';
 
 const { sleep } = require('./utils/helpers');
+const { inventoryAudit } = require('./utils/tool_check');
 const Combat = require('./combat/combat');
 const Survival = require('./survival/survival');
 const Shelter = require('./skills/shelter');
@@ -18,6 +19,7 @@ class Brain {
     this.running = false;
     this.busy = false;
     this.lastDamageCause = null;
+    this.lastAuditAt = 0;
 
     this.combat = new Combat(bot, memory, mcData, logger);
     this.survival = new Survival(bot, memory, mcData, logger);
@@ -38,6 +40,8 @@ class Brain {
 
   async start() {
     this.running = true;
+    // On start, audit inventory once to sync phase with reality
+    await this.syncPhaseWithInventory();
     this.logger.info(`brain online | phase=${this.memory.state.currentPhase}`);
     while (this.running) {
       try {
@@ -55,7 +59,39 @@ class Brain {
     try { this.bot.pvp.stop(); } catch {}
   }
 
+  /**
+   * CRITICAL: before starting a phase, look at the inventory and
+   * auto-promote the phase if the bot already has advanced gear.
+   * This prevents useless work like "gather wood" when the bot has iron pickaxe.
+   */
+  async syncPhaseWithInventory() {
+    const audit = inventoryAudit(this.bot);
+    let target = this.memory.state.currentPhase;
+
+    if (audit.pickaxe >= 3) target = 'nether';
+    else if (audit.pickaxe >= 2) target = 'iron';
+    else if (audit.pickaxe >= 1) target = 'stone';
+    else target = 'wood';
+
+    // Don't downgrade if user is already in end/dragon
+    if (['end','dragon','farming'].includes(this.memory.state.currentPhase)) {
+      return;
+    }
+
+    if (target !== this.memory.state.currentPhase) {
+      this.logger.info(`phase sync: ${this.memory.state.currentPhase} -> ${target} (based on inventory)`);
+      this.memory.state.currentPhase = target;
+      await this.memory.save();
+    }
+  }
+
   async tick() {
+    // Periodic audit (every 30s) — helps if the bot is somehow off-phase
+    if (Date.now() - this.lastAuditAt > 30_000) {
+      await this.syncPhaseWithInventory();
+      this.lastAuditAt = Date.now();
+    }
+
     const threat = this.combat.detectThreat();
     if (threat) {
       this.busy = true;

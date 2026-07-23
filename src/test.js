@@ -9,7 +9,7 @@ function bad(name, e) { console.error(`FAIL ${name}: ${e.message || e}`); fail +
 (async () => {
   const modules = [
     './utils/config','./utils/logger','./utils/helpers','./utils/dns',
-    './utils/place_helper','./utils/swim_helper',
+    './utils/place_helper','./utils/swim_helper','./utils/tool_check',
     './memory/memory','./combat/combat','./survival/survival',
     './skills/anti_afk','./skills/item_recovery','./skills/shelter','./skills/mining','./skills/food','./skills/crafting',
     './skills/nether','./skills/stronghold','./skills/progression','./skills/skills_registry',
@@ -52,18 +52,16 @@ function bad(name, e) { console.error(`FAIL ${name}: ${e.message || e}`); fail +
   try {
     const skills = require('./skills/skills_registry');
     const list = skills.list();
-    if (list.length < 60) throw new Error(`only ${list.length} skills`);
+    if (list.length < 70) throw new Error(`only ${list.length} skills`);
     ok(`skills registry count ${list.length}`);
   } catch (e) { bad('skills registry', e); }
 
   try {
     const ph = require('./utils/place_helper');
-    if (typeof ph.safePlaceAt !== 'function') throw new Error('safePlaceAt missing');
-    if (typeof ph.safeDig !== 'function') throw new Error('safeDig missing');
-    if (typeof ph.safePillarUp !== 'function') throw new Error('safePillarUp missing');
-    if (typeof ph.safeJump !== 'function') throw new Error('safeJump missing');
-    if (typeof ph.isForwardWalkable !== 'function') throw new Error('isForwardWalkable missing');
-    ok('place_helper exports (safe pillar/place/dig/jump)');
+    for (const fn of ['safePlaceAt','safeDig','safePillarUp','safeJump','isForwardWalkable']) {
+      if (typeof ph[fn] !== 'function') throw new Error(`${fn} missing`);
+    }
+    ok('place_helper exports');
   } catch (e) { bad('place_helper exports', e); }
 
   try {
@@ -71,15 +69,31 @@ function bad(name, e) { console.error(`FAIL ${name}: ${e.message || e}`); fail +
     for (const fn of ['isInWater','isHeadUnderwater','swimUp','swimToLand','waterSurvive']) {
       if (typeof sh[fn] !== 'function') throw new Error(`${fn} missing`);
     }
-    ok('swim_helper exports (swimUp/swimToLand/waterSurvive)');
+    ok('swim_helper exports');
   } catch (e) { bad('swim_helper exports', e); }
+
+  try {
+    const tc = require('./utils/tool_check');
+    for (const fn of ['canMine','toolFor','inventoryAudit','highestPickaxeTier','highestAxeTier','highestSwordTier']) {
+      if (typeof tc[fn] !== 'function') throw new Error(`${fn} missing`);
+    }
+    // Sanity: canMine on a fake bot with no tools
+    const fakeBot = { inventory: { items: () => [] } };
+    if (tc.canMine(fakeBot, 'stone') !== false) throw new Error('canMine stone with no tools should be false');
+    if (tc.canMine(fakeBot, 'dirt') !== true) throw new Error('canMine dirt with no tools should be true');
+    if (tc.canMine(fakeBot, 'bedrock') !== false) throw new Error('canMine bedrock should be false');
+    if (tc.toolFor('stone') !== 'pickaxe') throw new Error('toolFor stone should be pickaxe');
+    if (tc.toolFor('dirt') !== 'shovel') throw new Error('toolFor dirt should be shovel');
+    if (tc.toolFor('oak_log') !== 'axe') throw new Error('toolFor oak_log should be axe');
+    ok('tool_check exports + logic');
+  } catch (e) { bad('tool_check', e); }
 
   try {
     const mcData = require('minecraft-data')('1.21.1');
     for (const n of ['crafting_table','furnace','obsidian','end_portal_frame','bedrock','water','lava']) {
       if (!mcData.blocksByName[n]) throw new Error(`missing block ${n}`);
     }
-    for (const n of ['iron_pickaxe','diamond_pickaxe','bucket','shield','ender_eye','flint_and_steel']) {
+    for (const n of ['iron_pickaxe','diamond_pickaxe','bucket','shield','ender_eye','flint_and_steel','coal','stick']) {
       if (!mcData.itemsByName[n]) throw new Error(`missing item ${n}`);
     }
     ok('mcData sanity');

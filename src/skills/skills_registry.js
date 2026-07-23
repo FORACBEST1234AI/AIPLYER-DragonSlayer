@@ -10,6 +10,10 @@ const {
 const {
   isInWater, isHeadUnderwater, swimUp, swimToLand, waterSurvive,
 } = require('../utils/swim_helper');
+const {
+  canMine, toolFor, inventoryAudit,
+  highestPickaxeTier, highestAxeTier, highestSwordTier,
+} = require('../utils/tool_check');
 
 const skills = {};
 
@@ -25,7 +29,6 @@ skills.followEntity = async (bot, { entity, range = 2 }) => {
 };
 skills.stopPathing = async (bot) => { try { bot.pathfinder.stop(); return true; } catch { return false; } };
 
-// Safe jump — only jumps if there's headroom
 skills.jump = async (bot) => safeJump(bot);
 skills.jumpForward = async (bot) => {
   if (!isForwardWalkable(bot)) return false;
@@ -53,14 +56,12 @@ skills.sprintForward = async (bot, { ms = 800 } = {}) => {
 skills.turn180 = async (bot) => { await bot.look(bot.entity.yaw + Math.PI, 0, false); return true; };
 skills.clearControls = async (bot) => { bot.clearControlStates(); return true; };
 
-// SAFE pillar — uses helper with retry cap + ceiling detection
 skills.pillarUp = async (bot, { blocks = 3 } = {}) => {
   const item = findItem(bot, ['cobblestone','dirt','stone','netherrack','cobbled_deepslate','end_stone']);
   if (!item) return 0;
   return safePillarUp(bot, item, blocks);
 };
 
-// SAFE bridge forward — never spins on filled targets
 skills.bridgeForward = async (bot, { blocks = 3 } = {}) => {
   const item = findItem(bot, ['cobblestone','dirt','stone','netherrack']);
   if (!item) return 0;
@@ -73,7 +74,6 @@ skills.bridgeForward = async (bot, { blocks = 3 } = {}) => {
     const ok = await safePlaceAt(bot, item, target);
     if (!ok) break;
     placed++;
-    // step forward one block
     bot.setControlState('forward', true);
     await sleep(220);
     bot.setControlState('forward', false);
@@ -97,6 +97,16 @@ skills.equipShield = async (bot) => equipShield(bot);
 skills.equipArmor = async (bot) => { try { bot.armorManager.equipAll(); return true; } catch { return false; } };
 skills.countCobble = async (bot) => itemCount(bot, 'cobblestone');
 skills.countFood = async (bot) => ['bread','steak','cooked_beef','cooked_porkchop','cooked_mutton','cooked_chicken','baked_potato','carrot','apple','sweet_berries'].reduce((s,n)=>s+itemCount(bot,n),0);
+
+// NEW: inventory audit skills
+skills.auditInventory = async (bot) => inventoryAudit(bot);
+skills.hasPickaxe = async (bot) => highestPickaxeTier(bot) > 0;
+skills.hasAxe = async (bot) => highestAxeTier(bot) > 0;
+skills.hasSword = async (bot) => highestSwordTier(bot) > 0;
+skills.bestPickaxeTier = async (bot) => highestPickaxeTier(bot);
+skills.canMineBlock = async (bot, { blockName }) => canMine(bot, blockName);
+skills.toolForBlock = async (bot, { blockName }) => toolFor(blockName);
+
 skills.dropTrash = async (bot) => {
   for (const n of ['rotten_flesh','gravel','dirt','string']) {
     const it = findItem(bot, [n]);
@@ -114,18 +124,13 @@ skills.tossItemByName = async (bot, { name }) => {
 skills.attackNearestHostile = async (bot) => {
   const e = nearestOf(bot, x => ['zombie','skeleton','creeper','spider','husk','drowned','stray'].includes(x.name), 12);
   if (!e) return false;
-  try {
-    await equipBest(bot, 'sword');
-    bot.pvp.attack(e);
-    return true;
-  } catch { return false; }
+  try { await equipBest(bot, 'sword'); bot.pvp.attack(e); return true; } catch { return false; }
 };
 skills.attackNearestZombie = async (bot) => {
   const e = nearestOf(bot, x => ['zombie','husk','drowned','zombie_villager'].includes(x.name), 16);
   if (!e) return false;
   try {
     await equipBest(bot, 'sword');
-    // Move into melee range, then attack
     await bot.pathfinder.goto(new goals.GoalFollow(e, 2)).catch(() => {});
     const start = Date.now();
     while (e.isValid && Date.now() - start < 15000) {
@@ -144,6 +149,15 @@ skills.stopCombat = async (bot) => { try { bot.pvp.stop(); return true; } catch 
 skills.raiseShield = async (bot, { ms = 700 } = {}) => {
   if (!(await equipShield(bot))) return false;
   bot.activateItem(); await sleep(ms); bot.deactivateItem(); return true;
+};
+skills.critJump = async (bot, { entity }) => {
+  if (!entity) return false;
+  bot.setControlState('jump', true);
+  await sleep(80);
+  bot.setControlState('jump', false);
+  await bot.lookAt(entity.position.offset(0, entity.height * 0.85, 0), true);
+  bot.attack(entity);
+  return true;
 };
 skills.shootBowAt = async (bot, { entity }) => {
   const bow = findItem(bot, ['bow']);
@@ -184,37 +198,55 @@ skills.placeTorch = async (bot) => {
   const target = bot.entity.position.floored().offset(1, 0, 0);
   return safePlaceAt(bot, it, target);
 };
+
+// CRITICAL: dig skills refuse to run without a proper tool for the target
 skills.digBlockAhead = async (bot) => {
   const b = bot.blockAt(bot.entity.position.offset(1, 0, 0));
+  if (!b) return false;
+  if (!canMine(bot, b.name)) return false;
   return safeDig(bot, b);
 };
 skills.digBlockBelow = async (bot) => {
   const b = bot.blockAt(bot.entity.position.offset(0, -1, 0));
+  if (!b) return false;
+  if (!canMine(bot, b.name)) return false;
   return safeDig(bot, b);
 };
 skills.digBlockAbove = async (bot) => {
   const b = bot.blockAt(bot.entity.position.offset(0, 2, 0));
+  if (!b) return false;
+  if (!canMine(bot, b.name)) return false;
+  return safeDig(bot, b);
+};
+skills.digBlockAt = async (bot, { x, y, z }) => {
+  const b = bot.blockAt(new Vec3(x, y, z));
+  if (!b) return false;
+  if (!canMine(bot, b.name)) return false;
   return safeDig(bot, b);
 };
 skills.mineNearestStone = async (bot) => {
+  if (highestPickaxeTier(bot) < 1) return false;
   const b = bot.findBlock({ matching: x => ['stone','deepslate','cobbled_deepslate','andesite','diorite','granite'].includes(x.name), maxDistance: 24 });
   if (!b) return false;
-  try { await bot.collectBlock.collect(b); return true; } catch { return false; }
+  try { await equipBest(bot, 'pickaxe'); await bot.collectBlock.collect(b); return true; } catch { return false; }
 };
 skills.mineNearestIron = async (bot) => {
+  if (highestPickaxeTier(bot) < 2) return false;
   const b = bot.findBlock({ matching: x => ['iron_ore','deepslate_iron_ore'].includes(x.name), maxDistance: 32 });
   if (!b) return false;
-  try { await bot.collectBlock.collect(b); return true; } catch { return false; }
+  try { await equipBest(bot, 'pickaxe'); await bot.collectBlock.collect(b); return true; } catch { return false; }
 };
 skills.mineNearestDiamond = async (bot) => {
+  if (highestPickaxeTier(bot) < 3) return false;
   const b = bot.findBlock({ matching: x => ['diamond_ore','deepslate_diamond_ore'].includes(x.name), maxDistance: 48 });
   if (!b) return false;
-  try { await bot.collectBlock.collect(b); return true; } catch { return false; }
+  try { await equipBest(bot, 'pickaxe'); await bot.collectBlock.collect(b); return true; } catch { return false; }
 };
 skills.mineNearestCoal = async (bot) => {
+  if (highestPickaxeTier(bot) < 1) return false;
   const b = bot.findBlock({ matching: x => ['coal_ore','deepslate_coal_ore'].includes(x.name), maxDistance: 32 });
   if (!b) return false;
-  try { await bot.collectBlock.collect(b); return true; } catch { return false; }
+  try { await equipBest(bot, 'pickaxe'); await bot.collectBlock.collect(b); return true; } catch { return false; }
 };
 
 // ----- FOOD / HEAL -----
