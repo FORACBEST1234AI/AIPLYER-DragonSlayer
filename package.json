@@ -1,0 +1,28 @@
+{
+  "name": "aiplyer-dragonslayer",
+  "version": "2.0.0",
+  "description": "Advanced autonomous Minecraft 1.21.1 bot for solo Ender Dragon with 5h56m cycle",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node src/test.js",
+    "lint": "node --check src/index.js && find src -name '*.js' -print0 | xargs -0 -n1 node --check"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "minecraft-data": "^3.111.0",
+    "mineflayer": "^4.37.1",
+    "mineflayer-armor-manager": "^2.0.1",
+    "mineflayer-auto-eat": "^5.0.3",
+    "mineflayer-collectblock": "^1.6.0",
+    "mineflayer-pathfinder": "^2.4.5",
+    "mineflayer-pvp": "^1.3.2",
+    "mineflayer-tool": "^1.2.0",
+    "prismarine-block": "^1.23.0",
+    "prismarine-item": "^1.18.0",
+    "vec3": "^0.2.0"
+  }
+}

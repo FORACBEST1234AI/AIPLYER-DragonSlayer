@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "createdAt": null,
+  "totalRuns": 0,
+  "totalDeaths": 0,
+  "totalDragonKills": 0,
+  "lastBootAt": null,
+  "lastExitReason": null,
+  "lastPosition": null,
+  "homeBase": null,
+  "netherPortal": null,
+  "strongholdPortal": null,
+  "currentPhase": "wood",
+  "deaths": [],
+  "itemDrops": [],
+  "learnedFacts": [],
+  "skillStats": {},
+  "checkpoints": [],
+  "goalsCompleted": [],
+  "previousTasks": []
+}
