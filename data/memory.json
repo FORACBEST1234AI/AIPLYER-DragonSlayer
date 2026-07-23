@@ -1,21 +1,109 @@
 {
   "version": 2,
   "createdAt": null,
-  "totalRuns": 0,
-  "totalDeaths": 0,
+  "totalRuns": 1,
+  "totalDeaths": 4,
   "totalDragonKills": 0,
-  "lastBootAt": null,
+  "lastBootAt": "2026-07-23T20:45:23.183Z",
   "lastExitReason": null,
   "lastPosition": null,
   "homeBase": null,
   "netherPortal": null,
   "strongholdPortal": null,
-  "currentPhase": "wood",
-  "deaths": [],
+  "currentPhase": "iron",
+  "deaths": [
+    {
+      "position": {
+        "x": 313.5,
+        "y": 65,
+        "z": -71.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-23T20:54:43.691Z"
+    },
+    {
+      "position": {
+        "x": 314.5,
+        "y": 64,
+        "z": -72.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-23T20:51:11.392Z"
+    },
+    {
+      "position": {
+        "x": 306.5,
+        "y": 68,
+        "z": -56.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-23T20:50:51.394Z"
+    },
+    {
+      "position": {
+        "x": 298.5,
+        "y": 66,
+        "z": -67.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [
+        {
+          "name": "rotten_flesh",
+          "count": 1
+        }
+      ],
+      "time": "2026-07-23T20:47:16.747Z"
+    }
+  ],
   "itemDrops": [],
   "learnedFacts": [],
-  "skillStats": {},
+  "skillStats": {
+    "shelter": {
+      "success": 0,
+      "fail": 657
+    },
+    "item_recovery": {
+      "success": 1,
+      "fail": 0
+    }
+  },
   "checkpoints": [],
   "goalsCompleted": [],
-  "previousTasks": []
+  "previousTasks": [
+    {
+      "name": "survival:critical_hp",
+      "at": "2026-07-23T20:51:03.840Z"
+    },
+    {
+      "name": "survival:critical_hp",
+      "at": "2026-07-23T20:50:51.618Z"
+    },
+    {
+      "name": "threat:enderman",
+      "at": "2026-07-23T20:48:11.093Z"
+    },
+    {
+      "name": "threat:zombie",
+      "at": "2026-07-23T20:47:12.263Z"
+    },
+    {
+      "name": "threat:skeleton",
+      "at": "2026-07-23T20:47:04.808Z"
+    },
+    {
+      "name": "threat:skeleton",
+      "at": "2026-07-23T20:46:58.403Z"
+    },
+    {
+      "name": "threat:zombie",
+      "at": "2026-07-23T20:46:43.500Z"
+    },
+    {
+      "name": "threat:zombie",
+      "at": "2026-07-23T20:46:28.338Z"
+    }
+  ]
 }
