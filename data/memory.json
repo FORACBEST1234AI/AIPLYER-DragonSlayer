@@ -1,21 +1,831 @@
 {
   "version": 2,
   "createdAt": null,
-  "totalRuns": 1,
-  "totalDeaths": 0,
+  "totalRuns": 5,
+  "totalDeaths": 748,
   "totalDragonKills": 0,
-  "lastBootAt": "2026-07-23T21:44:25.633Z",
+  "lastBootAt": "2026-07-24T02:04:36.554Z",
   "lastExitReason": null,
   "lastPosition": null,
-  "homeBase": null,
+  "homeBase": {
+    "x": 30101,
+    "y": 85,
+    "z": 29977
+  },
   "netherPortal": null,
   "strongholdPortal": null,
   "currentPhase": "wood",
-  "deaths": [],
-  "itemDrops": [],
-  "learnedFacts": [],
-  "skillStats": {},
+  "deaths": [
+    {
+      "position": {
+        "x": -247.5,
+        "y": 70,
+        "z": 297.7
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [
+        {
+          "name": "sand",
+          "count": 22
+        }
+      ],
+      "time": "2026-07-24T03:38:59.576Z"
+    },
+    {
+      "position": {
+        "x": -248.5,
+        "y": 71,
+        "z": 297.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:11:15.425Z"
+    },
+    {
+      "position": {
+        "x": -260.5,
+        "y": 77,
+        "z": 291.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:11:07.975Z"
+    },
+    {
+      "position": {
+        "x": -257.5,
+        "y": 79,
+        "z": 286.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:10:41.773Z"
+    },
+    {
+      "position": {
+        "x": -262.5,
+        "y": 78,
+        "z": 281.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:10:32.227Z"
+    },
+    {
+      "position": {
+        "x": -249.5,
+        "y": 78,
+        "z": 279.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:10:12.025Z"
+    },
+    {
+      "position": {
+        "x": -254.5,
+        "y": 76,
+        "z": 288.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:10:02.426Z"
+    },
+    {
+      "position": {
+        "x": -254.5,
+        "y": 76,
+        "z": 287.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:09:49.824Z"
+    },
+    {
+      "position": {
+        "x": -262.5,
+        "y": 76,
+        "z": 280.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:09:36.026Z"
+    },
+    {
+      "position": {
+        "x": -258.5,
+        "y": 79,
+        "z": 288.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:09:25.475Z"
+    },
+    {
+      "position": {
+        "x": -265.5,
+        "y": 81,
+        "z": 283.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:09:06.377Z"
+    },
+    {
+      "position": {
+        "x": -253.5,
+        "y": 77,
+        "z": 290.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:08:53.525Z"
+    },
+    {
+      "position": {
+        "x": -256.5,
+        "y": 75,
+        "z": 298.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:08:44.625Z"
+    },
+    {
+      "position": {
+        "x": -258.5,
+        "y": 78,
+        "z": 295.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:08:21.823Z"
+    },
+    {
+      "position": {
+        "x": -264.5,
+        "y": 81,
+        "z": 286.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:08:07.625Z"
+    },
+    {
+      "position": {
+        "x": -255.5,
+        "y": 76,
+        "z": 289.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T03:07:43.526Z"
+    },
+    {
+      "position": {
+        "x": -251.5,
+        "y": 78,
+        "z": 288.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:58:07.224Z"
+    },
+    {
+      "position": {
+        "x": -249.5,
+        "y": 78,
+        "z": 278.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:57:41.026Z"
+    },
+    {
+      "position": {
+        "x": -265.5,
+        "y": 81,
+        "z": 290.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:57:22.974Z"
+    },
+    {
+      "position": {
+        "x": -253.5,
+        "y": 77,
+        "z": 278.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:56:34.425Z"
+    },
+    {
+      "position": {
+        "x": -260.5,
+        "y": 78,
+        "z": 294.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:56:18.874Z"
+    },
+    {
+      "position": {
+        "x": -250.5,
+        "y": 77,
+        "z": 287.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:56:04.774Z"
+    },
+    {
+      "position": {
+        "x": -265.5,
+        "y": 81,
+        "z": 286.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:55:34.825Z"
+    },
+    {
+      "position": {
+        "x": -262.5,
+        "y": 78,
+        "z": 291.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:55:14.175Z"
+    },
+    {
+      "position": {
+        "x": -260.5,
+        "y": 79,
+        "z": 295.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [
+        {
+          "name": "rotten_flesh",
+          "count": 2
+        }
+      ],
+      "time": "2026-07-24T02:55:02.525Z"
+    },
+    {
+      "position": {
+        "x": -252.5,
+        "y": 77,
+        "z": 288.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:54:05.078Z"
+    },
+    {
+      "position": {
+        "x": -256.5,
+        "y": 78,
+        "z": 294.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:53:51.075Z"
+    },
+    {
+      "position": {
+        "x": -255.5,
+        "y": 78,
+        "z": 296.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:53:32.475Z"
+    },
+    {
+      "position": {
+        "x": -259.5,
+        "y": 76,
+        "z": 281.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:53:21.475Z"
+    },
+    {
+      "position": {
+        "x": -253.5,
+        "y": 78,
+        "z": 283.5
+      },
+      "cause": "unknown",
+      "inventorySnapshot": [],
+      "time": "2026-07-24T02:53:12.174Z"
+    }
+  ],
+  "itemDrops": [
+    {
+      "pos": {
+        "x": -248,
+        "y": 70,
+        "z": 297
+      },
+      "items": [
+        {
+          "name": "sand",
+          "count": 22
+        }
+      ],
+      "expiresAt": 1784864639576,
+      "at": "2026-07-24T03:38:59.576Z"
+    },
+    {
+      "pos": {
+        "x": -264,
+        "y": 75,
+        "z": 295
+      },
+      "items": [
+        {
+          "name": "sand",
+          "count": 16
+        }
+      ],
+      "expiresAt": 1784859845376,
+      "at": "2026-07-24T02:19:05.376Z"
+    },
+    {
+      "pos": {
+        "x": -16,
+        "y": -134,
+        "z": 26
+      },
+      "items": [
+        {
+          "name": "stick",
+          "count": 3
+        },
+        {
+          "name": "netherite_leggings",
+          "count": 1
+        },
+        {
+          "name": "diamond_boots",
+          "count": 1
+        },
+        {
+          "name": "netherite_sword",
+          "count": 1
+        },
+        {
+          "name": "flint",
+          "count": 1
+        },
+        {
+          "name": "mace",
+          "count": 1
+        },
+        {
+          "name": "ender_pearl",
+          "count": 1
+        },
+        {
+          "name": "netherite_sword",
+          "count": 1
+        },
+        {
+          "name": "wooden_sword",
+          "count": 1
+        }
+      ],
+      "expiresAt": 1784846312926,
+      "at": "2026-07-23T22:33:32.926Z"
+    }
+  ],
+  "learnedFacts": [
+    {
+      "tag": "night_shelter",
+      "note": "built emergency shelter",
+      "weight": 334,
+      "at": "2026-07-23T21:55:12.977Z"
+    }
+  ],
+  "skillStats": {
+    "shelter": {
+      "success": 334,
+      "fail": 865
+    },
+    "item_recovery": {
+      "success": 5,
+      "fail": 3
+    }
+  },
   "checkpoints": [],
   "goalsCompleted": [],
-  "previousTasks": []
+  "previousTasks": [
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:57.032Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:56.790Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:54.123Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:50.622Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:50.381Z"
+    },
+    {
+      "name": "threat:creeper",
+      "at": "2026-07-24T03:38:49.721Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:47.718Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:43.966Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:43.314Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:41.310Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:37.559Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:36.903Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:34.901Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:31.152Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:30.494Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:28.490Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:24.741Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:24.084Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:22.079Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:18.330Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:17.671Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:15.670Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:11.914Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:11.264Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:09.260Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:05.504Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:04.853Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:38:02.849Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:59.092Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:58.440Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:56.435Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:52.677Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:52.024Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:50.023Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:46.265Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:45.614Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:43.610Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:39.852Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:39.208Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:37.203Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:33.444Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:32.795Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:30.790Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:27.026Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:26.382Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:24.379Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:20.616Z"
+    },
+    {
+      "name": "threat:creeper",
+      "at": "2026-07-24T03:37:19.970Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:17.964Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:14.205Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:13.555Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:11.552Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:07.792Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:07.148Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:05.142Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:01.384Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:37:00.736Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:58.736Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:54.980Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:54.334Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:52.335Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:48.576Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:47.930Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:45.932Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:42.175Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:41.526Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:39.532Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:35.773Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:35.124Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:33.126Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:29.368Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:28.722Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:26.721Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:22.965Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:22.318Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:20.315Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:16.560Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:15.909Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:13.906Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:10.157Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:09.503Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:07.501Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:03.751Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:03.095Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:36:01.092Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:57.343Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:56.689Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:54.688Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:50.935Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:50.282Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:48.280Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:44.524Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:43.876Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:41.872Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:38.115Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:37.466Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:35.459Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:31.705Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:31.061Z"
+    },
+    {
+      "name": "threat:warden",
+      "at": "2026-07-24T03:35:29.054Z"
+    }
+  ]
 }
